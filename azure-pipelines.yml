@@ -1,0 +1,24 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  name: lab.devsecops.com
+
+steps:
+ Script: |
+        echo "Iniciar sessao no Fortify SSC"
+        java -jar "$(fortify.bin.path)\fcli.jar" ssc session login default --url $(VAR.SSCURL) --token $(VAR.SSCTOKEN)
+        echo "Criar aplicacao no Fortify SSC"
+        java -jar "$(fortify.bin.path)\fcli.jar" ssc appversion create $(Build.Repository.Name):$(BRANCH_FORTIFY) --issue-template 'F8N Issue Template' --skip-if-exists  --auto-required-attrs --attr Technical:Ailos+=Yes --attr 'Technical:Development Languages=C#' --session default
+        echo "Executar logout da sessao aberta"
+        java -jar "$(fortify.bin.path)\fcli.jar" ssc session logout default --no-revoke-token
+        echo "Listar as sessoes abertas"
+        java -jar "$(fortify.bin.path)\fcli.jar" ssc session list
+      continueOnError: true
+
+-
