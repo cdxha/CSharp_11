@@ -27,4 +27,4 @@ steps:
   displayName: 'Run Fortify SAST'
   inputs:
     targetType: 'inline'
-    script: '/root/fortify/tools/bin/scancentral  -sscurl https://lab.devsecops.com:8443/ssc/ -ssctoken YWE4ZDgwM2ItNDQ0Yy00ZDkwLWFkOTItZDc3YmEzM2IyYzk4 start -bt msbuild -bf $(System.DefaultWorkingDirectory)\Sample.sln -upload --application $(Build.Repository.Name) --application-version $(Build.SourceBranchName) -uptokenYWE4ZDgwM2ItNDQ0Yy00ZDkwLWFkOTItZDc3YmEzM2IyYzk4'
+    script: '/opt/fortify/tools/bin/scancentral  -sscurl https://lab.devsecops.com:8443/ssc/ -ssctoken YWE4ZDgwM2ItNDQ0Yy00ZDkwLWFkOTItZDc3YmEzM2IyYzk4 start -bt msbuild -bf $(System.DefaultWorkingDirectory)\Sample.sln -upload --application $(Build.Repository.Name) --application-version $(Build.SourceBranchName) -uptokenYWE4ZDgwM2ItNDQ0Yy00ZDkwLWFkOTItZDc3YmEzM2IyYzk4'
