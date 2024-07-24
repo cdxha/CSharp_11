@@ -18,13 +18,13 @@ steps:
       echo "Iniciar sessao no Fortify SSC"
       java -jar /opt/fcli/fcli.jar ssc session login --url https://lab.devsecops.com:8443/ssc/ --token YWE4ZDgwM2ItNDQ0Yy00ZDkwLWFkOTItZDc3YmEzM2IyYzk4
       java "Criar aplicacao no Fortify SSC"
-      java -jar /opt/fcli/fcli.jar ssc appversion create $(Build.Repository.Name):$(Build.SourceBranchName) --issue-template 'Prioritized High Risk Issue Template' --skip-if-exists  --auto-required-attrs --attr 'Technical:Development Languages=C#' --session default
+      java -jar /opt/fcli/fcli.jar ssc appversion create $(Build.Repository.Name):$(Build.SourceBranchName) --issue-template 'Prioritized High Risk Issue Template' --skip-if-exists  --auto-required-attrs --session default
       echo "Executar logout da sessao aberta"
-      java -jar /opt/fcli/fcli.jar ssc session logout default --no-revoke-token
+      java -jar /opt/fcli/fcli.jar ssc session logout --no-revoke-token
       echo "Listar as sessoes abertas"
       java -jar /opt/fcli/fcli.jar ssc session list
 - task: Bash@3
   displayName: 'Run Fortify SAST'
   inputs:
     targetType: 'inline'
-    script: 'scancentral  -sscurl https://lab.devsecops.com:8443/ssc/ -ssctoken YWE4ZDgwM2ItNDQ0Yy00ZDkwLWFkOTItZDc3YmEzM2IyYzk4 start -bt msbuild -bf $(System.DefaultWorkingDirectory)\Sample.sln -upload --application $(Build.Repository.Name) --application-version $(Build.SourceBranchName) -uptokenYWE4ZDgwM2ItNDQ0Yy00ZDkwLWFkOTItZDc3YmEzM2IyYzk4'
+    script: '/root/fortify/tools/bin/scancentral  -sscurl https://lab.devsecops.com:8443/ssc/ -ssctoken YWE4ZDgwM2ItNDQ0Yy00ZDkwLWFkOTItZDc3YmEzM2IyYzk4 start -bt msbuild -bf $(System.DefaultWorkingDirectory)\Sample.sln -upload --application $(Build.Repository.Name) --application-version $(Build.SourceBranchName) -uptokenYWE4ZDgwM2ItNDQ0Yy00ZDkwLWFkOTItZDc3YmEzM2IyYzk4'
