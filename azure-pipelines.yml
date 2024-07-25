@@ -27,13 +27,15 @@ steps:
     script: |
       output=$(/opt/fortify/tools/bin/scancentral -sscurl "https://lab.devsecops.com:8443/ssc/" -ssctoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98" start -bf "/src/teste.sln" -upload --application $(Build.Repository.Name) --application-version $(Build.SourceBranchName) -uptoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98")
       
-      if [[ $output == *"Error generating scan specification"* ]] || [[ $output == *"ScanCentral MSBuild execution failed"* ]]; then
-        echo  "$output"
-        echo "passou aqui"
-        exit 1
-      fi
-      
       jobtoken=$(echo "$output" | tail -c 38 | xargs)
       
-     
+      # Verificar se jobtoken está vazio ou contém apenas espaços em branco
+      if [[ -z "$jobtoken" ]]; then
+        echo "Job Token null erro na execução"
+        exit 1
+      fi
+
+      # Imprimir o jobtoken
+      echo "Job Token: $jobtoken"
+
 
