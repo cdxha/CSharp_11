@@ -23,21 +23,13 @@ steps:
       java -jar /opt/fcli/fcli.jar ssc session logout --no-revoke-token
       echo "Listar as sessoes abertas"
       java -jar /opt/fcli/fcli.jar ssc session list
+
+
 - task: Bash@3
-  displayName: 'Run Fortify SAST'
-  inputs:
-    targetType: 'inline'
-    script: '/opt/fortify/tools/bin/scancentral  - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
-      echo "Extrair o jobtoken da saída"
-      jobtoken=$(echo "$output" | tail -c 38 | xargs)
-      
-      echo "Imprimir o jobtoken"
-      echo "Job Token: $jobtoken"
-      
-      echo  "Executar o comando e capturar a saída"
+      echo "Executar o comando e capturar a saída"
       output=$(scancentral -sscurl "https://lab.devsecops.com:8443/ssc/" -ssctoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98" start -upload --application $(Build.Repository.Name) --application-version $(Build.SourceBranchName) -uptoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98")
       
       echo "Verificar se houve erros específicos na saída"
@@ -50,5 +42,4 @@ steps:
       jobtoken=$(echo "$output" | tail -c 38 | xargs)
       
       echo "Imprimir o jobtoken"
-      echo "Job Token: $jobtoken"'
-
+      echo "Job Token: $jobtoken"
