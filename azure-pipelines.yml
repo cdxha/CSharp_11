@@ -29,6 +29,7 @@ steps:
       
       if [[ $output == *"Error generating scan specification"* ]] || [[ $output == *"ScanCentral MSBuild execution failed"* ]]; then
         echo  "$output"
+        echo "passou aqui"
         exit 1
       fi
       
