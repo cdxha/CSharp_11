@@ -33,10 +33,12 @@ steps:
       echo "Saída do comando: $output"
 
       if echo "$output" | grep -q "Error generating scan specification"; then
-        echo "Saída do comando: $output"
+        echo "Errro"
         exit 1
       fi
+      
+      echo "continuou no erro"
 
       # Extrair o jobtoken da saída
-      jobtoken=$(echo "$output" | tail -c 38 | xargs)
-      echo "$jobtoken"
+      #jobtoken=$(echo "$output" | tail -c 38 | xargs)
+      #echo "$jobtoken"
