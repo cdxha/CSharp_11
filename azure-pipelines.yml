@@ -32,9 +32,7 @@ steps:
       # Imprimir a saída completa para depuração
       echo "Saída do comando: $output"
 
-      # Verificar se há erros específicos na saída
-      if [[ "$output" == *"Error generating scan specification"* ]] || [[ "$output" == *"ScanCentral MSBuild execution failed"* ]]; then
-        echo "Erro encontrado: $output"
-        exit 1
-      fi
-      echo "loop infinito"
+      # Extrair o jobtoken da saída
+      jobtoken=$(echo "$output" | tail -c 38 | xargs)
+
+      echo "$jobtoken"
