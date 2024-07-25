@@ -27,10 +27,11 @@ steps:
     script: |
   
       # Executar o comando e capturar a saída padrão e de erro
-      output=$(/opt/fortify/tools/bin/scancentral -sscurl "https://lab.devsecops.com:8443/ssc/" -ssctoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98" start -bf teste.sln -upload --application "$(Build.Repository.Name)" --application-version "$(Build.SourceBranchName)" -uptoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98" 2>&1)
+      output=$(/opt/fortify/tools/bin/scancentral -sscurl "https://lab.devsecops.com:8443/ssc/" -ssctoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98" start -upload --application "$(Build.Repository.Name)" --application-version "$(Build.SourceBranchName)" -uptoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98" 2>&1)
 
       # Verifica se a string de erro está presente na saída
       if echo "$output" | grep -q "Error generating scan specification"; then
+          echo "$output"
           echo "Comando executado com erro."
           exit 1
       else
