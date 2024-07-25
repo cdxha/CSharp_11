@@ -29,17 +29,14 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      echo "Executar o comando e capturar a saída"
       output=$(/opt/fortify/tools/bin/scancentral -sscurl "https://lab.devsecops.com:8443/ssc/" -ssctoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98" start -upload --application $(Build.Repository.Name) --application-version $(Build.SourceBranchName) -uptoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98")
       
-      echo "Verificar se houve erros específicos na saída"
       if [[ $output == *"Error generating scan specification"* ]] || [[ $output == *"ScanCentral MSBuild execution failed"* ]]; then
         echo "Erro encontrado: $output"
         exit 1
       fi
       
-      echo "Extrair o jobtoken da saída"
       jobtoken=$(echo "$output" | tail -c 38 | xargs)
       
-      echo "Imprimir o jobtoken"
+      echo "$output"
       echo "Job Token: $jobtoken"
