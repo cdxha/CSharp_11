@@ -27,12 +27,16 @@ steps:
     script: |
   
       # Executar o comando e capturar a saída padrão e de erro
-      output=$(/opt/fortify/tools/bin/scancentral -sscurl "https://lab.devsecops.com:8443/ssc/" -ssctoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98" start -bf teste.sln -upload --application "$(Build.Repository.Name)" --application-version "$(Build.SourceBranchName)" -uptoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98" 2>&1)
+      output=$(/opt/fortify/tools/bin/scancentral -sscurl "https://lab.devsecops.com:8443/ssc/" -ssctoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98" start -bf teste.sln -upload --application "$(Build.Repository.Name)" --application-version "$(Build.SourceBranchName)" -uptoken "aa8d803b-444c-4d90-ad92-d77ba33b2c98")
 
       # Imprimir a saída completa para depuração
       echo "Saída do comando: $output"
 
+      if echo "$output" | grep -q "Error generating scan specification"; then
+        echo "Saída do comando: $output"
+        exit 1
+      fi
+
       # Extrair o jobtoken da saída
       jobtoken=$(echo "$output" | tail -c 38 | xargs)
-
       echo "$jobtoken"
